@@ -1,0 +1,75 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+html,
+body {
+  background-color: #0a0612;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #f4f2f8;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: 'Manrope', system-ui, sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(236, 72, 153, 0.25);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(236, 72, 153, 0.4);
+}
+
+@layer components {
+  .glass {
+    @apply bg-[#ffffff0d] backdrop-blur-xl border border-[#ffffff1a];
+  }
+
+  .glass-card {
+    /* Виправили помилку тут: замінили glass на конкретні утиліти */
+    @apply bg-[#ffffff0d] backdrop-blur-xl border border-[#ffffff1a] rounded-3xl;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(to right, #ec4899, #a855f7);
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3
+    font-semibold text-[#ffffff] transition-transform duration-200
+    hover:scale-[1.03] active:scale-[0.98] focus:outline-none focus-visible:ring-2
+    focus-visible:ring-pink-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0612];
+    background-image: linear-gradient(to right, #ec4899, #a855f7);
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.25);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-[#ffffff26]
+    bg-[#ffffff0d] px-6 py-3 font-semibold text-[#ffffff] opacity-90 transition-colors duration-200
+    hover:bg-[#ffffff1a] hover:opacity-100 focus:outline-none focus-visible:ring-2;
+  }
+
+  .pill {
+    @apply rounded-full border border-[#ffffff1a] bg-[#ffffff0d] px-4 py-2 text-sm font-medium
+    text-[#ffffff] opacity-70 transition-all duration-150 hover:border-[#ffffff33] hover:opacity-100
+    focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-400;
+  }
+
+  .pill-selected {
+    @apply border-transparent text-[#ffffff] opacity-100;
+    background-image: linear-gradient(to right, #ec4899, #a855f7);
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.25);
+  }
+}

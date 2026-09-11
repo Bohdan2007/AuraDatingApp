@@ -1,5 +1,15 @@
+# === Frontend ===
+node_modules/
+dist/
+.env
+
+# === Backend (C# / .NET) ===
 bin/
 obj/
-/packages/
-riderModule.iml
-/_ReSharper.Caches/
+.vs/
+*.user
+appsettings.Development.json
+
+# === Mac/Windows ===
+.DS_Store
+Thumbs.db
