@@ -1,19 +1,28 @@
 @import "tailwindcss";
-@config "../tailwind.config.js";
+
+@theme {
+  --font-display: "Manrope", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  --color-aura-bg: #0a0612;
+  --color-aura-panel: #150c24;
+  --color-aura-card: #1a0f2e;
+  --color-aura-border: rgba(255, 255, 255, 0.1);
+}
 
 html,
 body {
-  background-color: #0a0612;
+  background-color: var(--color-aura-bg);
 }
 
 body {
-  font-family: 'Inter', system-ui, sans-serif;
-  color: #f4f2f8;
+  font-family: var(--font-body);
+  color: #f5f3f9;
   -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4, .font-display {
-  font-family: 'Manrope', system-ui, sans-serif;
+  font-family: var(--font-display);
 }
 
 ::-webkit-scrollbar {
@@ -24,52 +33,100 @@ h1, h2, h3, h4, .font-display {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(236, 72, 153, 0.25);
+  background: rgba(236, 72, 153, 0.28);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(236, 72, 153, 0.4);
+  background: rgba(236, 72, 153, 0.45);
+}
+
+/* ---------- Animated waveform bars ---------- */
+@keyframes wave-bounce {
+  0%, 100% {
+    transform: scaleY(0.25);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.wave-bar {
+  transform-origin: center;
+  animation: wave-bounce 1.1s ease-in-out infinite;
+}
+
+.wave-bar-paused {
+  animation-play-state: paused;
+}
+
+/* ---------- Floating background orbs ---------- */
+@keyframes drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, -30px) scale(1.08); }
+  66% { transform: translate(-25px, 20px) scale(0.95); }
+}
+@keyframes drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-35px, -25px) scale(1.1); }
+}
+@keyframes drift-c {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  40% { transform: translate(20px, 30px) scale(0.92); }
+  70% { transform: translate(-30px, -10px) scale(1.06); }
+}
+
+.animate-drift-a { animation: drift-a 16s ease-in-out infinite; }
+.animate-drift-b { animation: drift-b 20s ease-in-out infinite; }
+.animate-drift-c { animation: drift-c 24s ease-in-out infinite; }
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up { animation: fade-in-up 0.5s ease-out both; }
+
+@utility glass {
+  @apply bg-white/5 backdrop-blur-xl border border-white/10;
+}
+
+@utility gradient-surface {
+  @apply bg-gradient-to-r from-pink-500 to-purple-600;
 }
 
 @layer components {
-  .glass {
-    @apply bg-[#ffffff0d] backdrop-blur-xl border border-[#ffffff1a];
-  }
-
   .glass-card {
-    /* Виправили помилку тут: замінили glass на конкретні утиліти */
-    @apply bg-[#ffffff0d] backdrop-blur-xl border border-[#ffffff1a] rounded-3xl;
+    @apply glass rounded-3xl;
   }
 
   .gradient-text {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(to right, #ec4899, #a855f7);
+    @apply bg-gradient-to-r from-pink-400 via-fuchsia-400 to-purple-400 bg-clip-text text-transparent;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3
-    font-semibold text-[#ffffff] transition-transform duration-200
-    hover:scale-[1.03] active:scale-[0.98] focus:outline-none focus-visible:ring-2
-    focus-visible:ring-pink-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0612];
-    background-image: linear-gradient(to right, #ec4899, #a855f7);
-    box-shadow: 0 0 15px rgba(236, 72, 153, 0.25);
+    @apply inline-flex items-center justify-center gap-2 rounded-full gradient-surface px-6 py-3
+      font-semibold text-white shadow-[0_0_30px_-8px_rgba(236,72,153,0.6)] transition-transform
+      duration-200 hover:scale-[1.03] active:scale-[0.98] focus:outline-none focus-visible:ring-2
+      focus-visible:ring-pink-400 focus-visible:ring-offset-2 focus-visible:ring-offset-aura-bg;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-[#ffffff26]
-    bg-[#ffffff0d] px-6 py-3 font-semibold text-[#ffffff] opacity-90 transition-colors duration-200
-    hover:bg-[#ffffff1a] hover:opacity-100 focus:outline-none focus-visible:ring-2;
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/15
+      bg-white/5 px-6 py-3 font-semibold text-white/85 transition-colors duration-200
+      hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30;
   }
 
   .pill {
-    @apply rounded-full border border-[#ffffff1a] bg-[#ffffff0d] px-4 py-2 text-sm font-medium
-    text-[#ffffff] opacity-70 transition-all duration-150 hover:border-[#ffffff33] hover:opacity-100
-    focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-400;
+    @apply rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium
+      text-white/70 transition-all duration-150 hover:border-white/20 hover:text-white
+      focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-400;
   }
 
   .pill-selected {
-    @apply border-transparent text-[#ffffff] opacity-100;
-    background-image: linear-gradient(to right, #ec4899, #a855f7);
-    box-shadow: 0 0 15px rgba(236, 72, 153, 0.25);
+    @apply border-transparent gradient-surface text-white shadow-[0_0_20px_-6px_rgba(236,72,153,0.65)];
+  }
+
+  .field {
+    @apply w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white
+      placeholder-white/35 focus:outline-none focus:ring-2 focus:ring-pink-400/50;
   }
 }
